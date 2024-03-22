@@ -1,0 +1,58 @@
+@import "../../css/pm.quasar.variables.scss";
+.notif-main-container {
+  box-shadow: none;
+  .row:last-child {
+    .line-separator {
+      display: none;
+    }
+  }
+  .section-header-notifications {
+    padding: 0 13px;
+    .section-title {
+      margin-left: -10px;
+    }
+  }
+  .notification-section {
+    .notification-message {
+      font-size: 11px;
+    }
+    .notification-name {
+      font-size: 10px;
+      color: $accent-0;
+    }
+  }
+  .status-container {
+    .notification-status {
+      width: 10px;
+      height: 10px;
+      background-color: $accent-0;
+      border: $accent-0;
+      border-radius: 50%;
+    }
+  }
+  .line-separator {
+    display: block;
+    margin: 0 auto;
+    width: 95%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1439px) {
+  .notif-main-container {
+    padding: 10px;
+  }
+  .section-header-notifications {
+    .section-title {
+      padding-left: 5px;
+    }
+  }
+  .notification-section {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 0;
+    .notif-contents {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+}

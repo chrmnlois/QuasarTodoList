@@ -1,0 +1,187 @@
+@import "../../css/pm.quasar.variables.scss";
+.pt-date-time {
+  border-radius: 0;
+  .date {
+    .q-icon {
+      color: $accent-0;
+      font-size: 19px;
+    }
+  }
+  .time-container {
+    position: relative;
+    .text-time {
+      font-size: 49px;
+      color: $accent-0;
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .onboarding-analog-clock-accent-1 {
+    @media screen and (min-width: 1203px) {
+      width: 110px;
+      height: 110px;
+    }
+    @media screen and (min-width: 1919px) {
+      width: 132.01px;
+      height: 132.01px;
+    }
+    border-radius: 100%;
+    border: 8px solid #252c3e;
+
+    &__notch {
+      transform-origin: 50% 100%;
+      position: absolute;
+      height: 50%;
+      bottom: 50%;
+      left: 50%;
+
+      &::after {
+        content: "";
+        width: 100%;
+        height: 2.5%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: $accent-0;
+      }
+
+      &.-long::after {
+        content: "";
+        width: 1px;
+        height: 7.5%;
+      }
+    }
+
+    &::after {
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      content: "";
+      position: absolute;
+      border-radius: 100%;
+      background-color: #293040;
+      transform: translate3d(-50%, -50%, 0);
+    }
+
+    &__face {
+      width: 100%;
+      height: 100%;
+    }
+
+    &__hand {
+      transform-origin: 50% 100%;
+      background-color: $accent-0;
+      position: absolute;
+      width: 4px;
+      height: 35%;
+      bottom: 50%;
+      left: 50%;
+      border-radius: 20px;
+      transform: translate3d(-50%, 0%, 0);
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 10%;
+        background-color: inherit;
+        backface-visibility: hidden;
+      }
+
+      &.-hours {
+        height: calc(100% / 3.5);
+        width: 4px;
+        border-radius: 20px;
+      }
+    }
+  }
+}
+
+// My Activity
+.activity-section {
+  .activity {
+    border-radius: 0;
+  }
+  .activity-details {
+    white-space: initial;
+  }
+  .activity-log {
+    text-align: right;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1439px) {
+  .pt-date-time {
+    .clock-section-title {
+      font-size: 14px;
+    }
+    .date {
+      margin-left: -20px;
+      padding-top: 2px;
+      .q-icon {
+        margin-left: -5px;
+        font-size: 16px;
+      }
+      .calendar-date {
+        font-size: 12px;
+      }
+    }
+    .clock-section {
+      padding-top: 0;
+      .onboarding-analog-clock-accent-1 {
+        height: 110px;
+        width: 110px;
+      }
+      .time-container {
+        .text-time {
+          font-size: 30px;
+        }
+      }
+    }
+  }
+
+  .pt-activity {
+    .activity-section {
+      padding-top: 16px;
+      .activity-head {
+        font-size: 14px;
+      }
+      .activity-container {
+        .activity-details {
+          padding-bottom: 10px;
+          font-size: 12px;
+        }
+        .activity-log {
+          font-size: 12px;
+          white-space: initial;
+        }
+      }
+    }
+  }
+}
+.onboarding-dark-mode {
+  .clock-section-title,
+  .activity-head {
+    color: $accent-2;
+  }
+  .time-container {
+    .text-time {
+      color: white;
+    }
+  }
+
+  .onboarding-right-drawer {
+    .onboarding-analog-clock-accent-1 {
+      filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.4)) !important;
+    }
+  }
+  .onboarding-bg-accent-1 {
+    background-color: white;
+  }
+}

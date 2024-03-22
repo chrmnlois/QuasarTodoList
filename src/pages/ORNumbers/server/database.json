@@ -1,0 +1,13 @@
+{
+  "orNumbers": [
+    {
+      "id": 1,
+      "receipt_type": 1,
+      "date": "2024-03-16",
+      "received_from": "sample",
+      "tin_number": 10231231,
+      "address": "sample",
+      "amount": 20
+    }
+  ]
+}

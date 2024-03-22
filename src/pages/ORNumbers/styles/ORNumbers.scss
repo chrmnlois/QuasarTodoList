@@ -1,0 +1,31 @@
+// Pop up menu in table
+.menu-container {
+  width: 16%;
+  padding: 5px;
+}
+
+// input container max width 142 in quantity input from range form
+.container-wd-142 {
+  max-width: 142px;
+
+  & > .qty-input {
+    max-width: 100%;
+  }
+}
+
+.container-wd-mobile {
+  max-width: calc(50% - 4px);
+
+  & > .qty-input {
+    max-width: 100%;
+  }
+}
+
+// input container max width 292 in range inputs from range form
+.container-wd-292 {
+  max-width: 292px;
+
+  & > .range-input {
+    max-width: 50%;
+  }
+}
