@@ -1,27 +1,18 @@
 <template>
   <!-- START OF MENU TABLE -->
-  <div class="main-menu q-mt-md">
+  <div class="main-menu q-mt-xxs">
     <div class="onboarding-menu-scroll">
       <q-list>
-        <!-- OR NUMBERS -->
-        <q-item clickable v-ripple :to="{ name: 'or-numbers' }">
+        <q-item
+          clickable
+          v-ripple
+          :to="{ name: 'todo-list' }"
+          :class="{ 'active-item': isCreateTodoRoute }"
+        >
           <q-item-section avatar class="margin-left-10">
-            <q-icon
-              name="iconfont icon-user-management-fill"
-              class="list-icon"
-            />
+            <q-icon name="fact_check" class="list-icon" />
           </q-item-section>
-          <q-item-section class="list-text">O.R. Numbers</q-item-section>
-        </q-item>
-        <!-- OR NUMBERS -->
-        <q-item clickable v-ripple :to="{ name: 'todo-list' }">
-          <q-item-section avatar class="margin-left-10">
-            <q-icon
-              name="iconfont icon-user-management-fill"
-              class="list-icon"
-            />
-          </q-item-section>
-          <q-item-section class="list-text">Todo List</q-item-section>
+          <q-item-section class="list-text">To-Do List</q-item-section>
         </q-item>
       </q-list>
       <div class="absolute-bottom">
@@ -44,9 +35,18 @@
 
 <script>
 import { ref, computed } from "vue";
+import { useRoute } from "vue-router";
+
 export default {
   setup() {
-    return {};
+    const route = useRoute();
+    const isCreateTodoRoute = computed(() => {
+      return route.name === "create-todo" || route.name === "edit-todo";
+    });
+
+    return {
+      isCreateTodoRoute,
+    };
   },
 };
 </script>

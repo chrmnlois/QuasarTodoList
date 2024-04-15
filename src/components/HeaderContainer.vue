@@ -1,62 +1,66 @@
 <template>
-	<div>
-		<div class="mobile-view relative-position q-px-lg">
-			<div :class="`header-content absolute ${SearchBtnState ? 'left-right-60' : 'left-right-24'}`"></div>
-			<div class="relative-position flex justify-between items-center full-height q-py-lg">
-				<div>
-					<q-icon
-						v-if="MenuBtnState"
-						class="bg-amber-5 onboarding-border-radius-8 q-pa-xs"
-						size="sm"
-						color="accent-3"
-						name="iconfont icon-burger-menu-line"
-						@click="ToggleLeftDrawer()"
-					/>
-					<q-icon v-else size="sm" color="accent-3" name="iconfont icon-back-fill" @click="router.go(-1)" />
-				</div>
-				<div>
-					<!-- <div class="q-mr-sm">
+  <div>
+    <div class="mobile-view relative-position q-px-lg">
+      <div
+        :class="`header-content absolute ${
+          SearchBtnState ? 'left-right-60' : 'left-right-24'
+        }`"
+      ></div>
+      <div
+        class="relative-position flex justify-between items-center full-height q-py-lg"
+      >
+        <div>
+          <q-icon
+            v-if="MenuBtnState"
+            class="bg-amber-5 onboarding-border-radius-8 q-pa-xs"
+            size="sm"
+            color="accent-3"
+            name="iconfont icon-burger-menu-line"
+            @click="ToggleLeftDrawer()"
+          />
+          <q-icon
+            v-else
+            size="sm"
+            color="accent-3"
+            name="iconfont icon-back-fill"
+            @click="router.go(-1)"
+          />
+        </div>
+        <div>
+          <!-- <div class="q-mr-sm">
             <i
               @click="ToggleFilterDialogState()"
               class="fa-solid fa-filter"
             ></i>
           </div> -->
-					<div class="flex items-center" v-if="SearchBtnState">
-						<q-icon
-							@click="toggleSearchField()"
-							class="bg-amber-5 onboarding-border-radius-8 q-pa-xs"
-							size="sm"
-							name="iconfont icon-search-line"
-						/>
+          <div class="flex items-center" v-if="SearchBtnState">
+            <q-icon
+              @click="toggleSearchField()"
+              class="bg-amber-5 onboarding-border-radius-8 q-pa-xs"
+              size="sm"
+              name="iconfont icon-search-line"
+            />
 
-						<q-input
-							placeholder="Search"
-							borderless
-							autofocus
-							dense
-							:class="showSearchInput ? 'animate-input' : 'inanimate-input'"
-							class="
-								onboarding-border-accent-0 onboarding-border-radius-10
-								transition-02s
-								bg-white
-								pr-6
-								q-pl-sm
-								right-0
-								absolute
-							"
-						/>
-						<q-icon
-							@click="toggleSearchField()"
-							size="sm"
-							:class="showSearchInput ? 'inanimate-opacity' : 'animate-opacity'"
-							class="q-pl-md onboarding-text-accent-0 absolute right-0 magnify"
-							name="iconfont icon-search-line"
-						/>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+            <q-input
+              placeholder="Search"
+              borderless
+              autofocus
+              dense
+              :class="showSearchInput ? 'animate-input' : 'inanimate-input'"
+              class="onboarding-border-accent-0 onboarding-border-radius-10 transition-02s bg-white pr-6 q-pl-sm right-0 absolute"
+            />
+            <q-icon
+              @click="toggleSearchField()"
+              size="sm"
+              :class="showSearchInput ? 'inanimate-opacity' : 'animate-opacity'"
+              class="q-pl-md onboarding-text-accent-0 absolute right-0 magnify"
+              name="iconfont icon-search-line"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import { ref, shallowRef, watch } from "vue";

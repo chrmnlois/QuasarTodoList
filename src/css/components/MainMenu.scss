@@ -17,7 +17,7 @@
     /* width */
     &::-webkit-scrollbar {
       width: 3px;
-      height: 3px;
+      height: 30px;
     }
 
     /* Handle */
@@ -37,7 +37,7 @@
 
   .list-icon {
     size: 13.6px;
-    color: $accent-0;
+    color: $accent-1;
     text-align: left;
   }
 
@@ -51,6 +51,13 @@
     border-top: 1px solid lightgray;
     @media screen and (min-width: 1024px) {
       display: none;
+    }
+  }
+
+  .active-item {
+    color: $accent-0; // Change text color when active
+    .list-icon {
+      color: $accent-0; // Change icon color when active
     }
   }
 }

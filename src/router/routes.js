@@ -3,7 +3,7 @@ const routes = [
     path: "/onboarding",
     name: "onboarding",
     redirect: {
-      name: "or-numbers",
+      name: "todo-list",
     },
     component: () => import("../layouts/MainLayout.vue"),
     children: [
@@ -61,6 +61,16 @@ const routes = [
             path: "todo-list",
             name: "todo-list",
             component: () => import("../pages/Onboarding/TodoList.vue"),
+          },
+          {
+            path: "create-todo",
+            name: "create-todo",
+            component: () => import("../pages/Onboarding/CreateTodoList.vue"),
+          },
+          {
+            path: "edit-todo",
+            name: "edit-todo",
+            component: () => import("../pages/Onboarding/EditList.vue"),
           },
         ],
       },

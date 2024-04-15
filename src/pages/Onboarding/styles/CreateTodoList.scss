@@ -1,0 +1,94 @@
+.create-todo-list {
+  // Scroll
+  max-height: 86vh;
+  overflow-y: auto;
+
+  .in-progress {
+    height: 32px;
+    width: 122px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+
+  // Border Box
+  .onboarding-border-accent-0,
+  .onboarding-border-radius-15 {
+    width: 400px;
+  }
+
+  // Red Asterisk Label
+  .required-indicator {
+    color: red;
+  }
+
+  // Account Name
+  .onboarding-border-accent-0 .onboarding-input-field {
+    width: 365px;
+    height: 41px;
+  }
+
+  // Cancel Button & Save Button (Todolist) {
+  .cancel-btn,
+  .save-btn {
+    width: 110px;
+  }
+
+  // Delete and Arrow Up Button Fill
+  .onboarding-buttontext-grey.q-pa-none {
+    color: #249990;
+  }
+
+  // Placeholder Color
+  .onboarding-input-field ::placeholder {
+    color: #1c1b1f80;
+  }
+}
+
+// ********** TIME **********
+// Time Icon
+.time-cursor-pointer {
+  color: $accent-1;
+}
+
+// Time Cancel & Save
+.time-cancel-btn,
+.time-save-btn {
+  width: 110px;
+}
+
+// -- Time Interface --
+// Circle Fill
+.q-time__container-child.fit.overflow-hidden {
+  background-color: white;
+  border: 1px solid #249990;
+}
+
+// Numbers
+.q-time__clock-position.row.flex-center {
+  color: #249990;
+  font-weight: 550;
+}
+
+// Spacing between AM / PM
+.q-time__header-ampm.column.items-between.no-wrap {
+  margin-block: 0;
+}
+
+// Pointer
+.q-time__clock-pointer.text-white,
+.q-time__clock-pointer.text-white::before,
+.q-time__clock-pointer.text-white::after {
+  background-color: #249990;
+}
+
+// Active Time Picker
+.q-time__link.q-time__link--active {
+  color: #249990;
+  font-weight: 550;
+}
+
+// Not Active Time Picker
+.q-time__link.cursor-pointer {
+  color: #212121;
+  font-weight: 550;
+}

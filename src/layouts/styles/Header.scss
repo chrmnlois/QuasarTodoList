@@ -5,6 +5,10 @@
     border-bottom: 1px solid $accent-0;
   }
   .tablet-desktop-view {
+    .full-width.main-search {
+      // Input Background Color
+      background-color: #ffffff;
+    }
     .main-search {
       .q-field__native {
         color: $accent-1;
@@ -92,7 +96,7 @@
   }
   .q-field__control {
     border-radius: 5px !important;
-    border: 1px solid $accent-0;
+    border: 1px solid $accent-1;
   }
   .avatar {
     @media screen and (min-width: $breakpoint-sm-max) {

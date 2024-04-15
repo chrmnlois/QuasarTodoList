@@ -1,7 +1,6 @@
 /*
 * Header Styles
 */
-
 .onboarding-header-content {
   top: 0;
   bottom: 0;
@@ -707,7 +706,7 @@
   .onboarding-pagination-select-input {
     width: 70px;
     height: 31px;
-    // overflow-x: scroll;
+    //overflow-x: scroll;
 
     .q-field__control {
       font-size: 15px;
@@ -780,12 +779,20 @@
   .q-item {
     margin-left: 3px;
     border-left: 2px solid transparent;
+
+    // Default icon color
+    .q-icon {
+      color: $accent-1;
+    }
   }
+
   .q-item.q-router-link--active {
-    background-color: #f2f2f2;
-    border-left: 2px solid $accent-0;
-    color: $accent-0;
+    color: $accent-0; // Change text color when active
+    .q-icon {
+      color: $accent-0; // Change icon color when active
+    }
   }
+
   .margin-left-10 {
     margin-left: 10px;
   }

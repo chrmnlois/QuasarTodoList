@@ -1,14 +1,20 @@
 <template>
-	<div class="onboarding-dialog-confirmation">
-		<!-- <q-dialog class="core-dialog-background" v-model="GET_CORE_DIALOG_STATE"> -->
-		<q-dialog class="onboarding-dialog-background" v-model="DialogState" persistent>
-			<div class="onboarding-dialog-container text-center text-white no-shadow flex justify-center items-center">
-				<div class="width-300">
-					<component :is="component" />
-				</div>
-			</div>
-		</q-dialog>
-	</div>
+  <div class="onboarding-dialog-confirmation">
+    <!-- <q-dialog class="core-dialog-background" v-model="GET_CORE_DIALOG_STATE"> -->
+    <q-dialog
+      class="onboarding-dialog-background"
+      v-model="DialogState"
+      persistent
+    >
+      <div
+        class="onboarding-dialog-container text-center text-white no-shadow flex justify-center items-center"
+      >
+        <div class="width-300">
+          <component :is="component" />
+        </div>
+      </div>
+    </q-dialog>
+  </div>
 </template>
 
 <script>
