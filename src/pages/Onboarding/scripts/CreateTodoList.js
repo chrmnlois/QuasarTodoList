@@ -4,7 +4,7 @@ import CustomModal from "../components/CustomModal.vue";
 import Filters from "../../../components/Filters.vue";
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { MyTasks, DoneTasks } from "../composables/Tasks.js";
+import { MyTasks, DoneTasks, inProgress } from "../composables/Tasks.js";
 import { useQuasar } from "quasar";
 
 export default {
@@ -25,12 +25,15 @@ export default {
 
     // ** INFINITE FORM SETUP **
     let taskTitle = ref("");
-    let keyResults = ref([{ result_name: "", selectedTime: null }]);
+    let keyResults = ref([
+      { result_name: "", selectedTime: null, checked: false },
+    ]);
     const addKeyResult = () => {
       // Add form
       keyResults.value.push({
         result_name: "",
         selectedTime: null,
+        checked: false,
       });
     };
     const removeKeyResult = (index) => {
@@ -50,23 +53,50 @@ export default {
         .toString()
         .padStart(2, "0")} ${period}`;
     };
-
     // ** SUBMIT FORM **
     let form = ref(null);
     const addTodo = () => {
-      const newTasks = keyResults.value.map((task) => ({
-        title: taskTitle.value,
-        todo: task.result_name,
-        selectedTime: formatTime(task.selectedTime),
-        checked: false, // check box false
-      }));
+      // Group tasks by title
+      const groupedTasks = keyResults.value.reduce((groups, task) => {
+        const existingGroup = groups.find(
+          (group) => group.title === taskTitle.value
+        );
+
+        if (existingGroup) {
+          existingGroup.todos.push({
+            name: task.result_name,
+            checked: false, // Set checked to false for each task
+          });
+          existingGroup.selectedTimes.push(formatTime(task.selectedTime));
+        } else {
+          groups.push({
+            title: taskTitle.value,
+            todos: [
+              {
+                name: task.result_name,
+                checked: false, // Set checked to false for each task
+              },
+            ],
+            selectedTimes: [formatTime(task.selectedTime)],
+            checked: false,
+          });
+        }
+
+        return groups;
+      }, []);
+
+      // Push new tasks to MyTasks array
       let id = MyTasks.value.length;
-      MyTasks.value.push(...newTasks);
+      MyTasks.value.push(...groupedTasks);
+
+      // Check if new tasks were added to MyTasks
       if (MyTasks.value.length > id) {
         showNotify(true);
       } else {
         showNotify(false);
       }
+
+      // Reset form and clear input fields
       taskTitle.value = "";
       keyResults.value = [{ result_name: "", selectedTime: null }];
       form.value.reset();

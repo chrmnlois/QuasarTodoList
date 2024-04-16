@@ -47,34 +47,27 @@
             >
               In-Process
             </div>
+
             <div
-              class="col q-pa-md onboarding-border-accent-0 onboarding-border-radius-10 q-mr-md"
+              v-for="(taskSet, index) in myTasks.slice().reverse()"
+              :key="`taskSet-${index}`"
+              class="col q-pa-md onboarding-border-accent-0 onboarding-border-radius-10 q-mr-md q-mt-sm"
             >
-              <q-expansion-item expand-separator label="To-Do List">
+              <q-expansion-item expand-separator :label="taskSet.title">
                 <template v-slot:header="{ expanded }">
                   <q-item-section v-if="!expanded">
-                    <template v-if="myTasks && myTasks.length > 0">
-                      <div
-                        v-if="myTasks[0] && myTasks[0].title"
-                        :class="{
-                          'onboarding-text-accent-0': !expanded,
-                          'text-semibold': !expanded,
-                        }"
-                      >
-                        {{ myTasks[0].title }}
-                      </div>
-                      <div
-                        v-else
-                        class="onboarding-text-accent-0 text-semibold"
-                      >
-                        Task Name
-                      </div>
-                    </template>
-                    <template v-else>
-                      <div class="onboarding-text-accent-0 text-semibold">
-                        Task Name
-                      </div>
-                    </template>
+                    <div
+                      v-if="taskSet.title"
+                      :class="{
+                        'onboarding-text-accent-0': !expanded,
+                        'text-semibold': !expanded,
+                      }"
+                    >
+                      {{ taskSet.title }}
+                    </div>
+                    <div v-else class="onboarding-text-accent-0 text-semibold">
+                      Task Name
+                    </div>
                   </q-item-section>
                   <q-item-section
                     v-if="!expanded"
@@ -87,13 +80,133 @@
                     v-else
                     class="onboarding-text-accent-0 text-semibold"
                   >
-                    <template v-if="myTasks && myTasks.length > 0">
-                      <div v-if="myTasks[0] && myTasks[0].title">
-                        {{ myTasks[0].title }}
-                      </div>
-                      <div v-else>Task Name</div>
+                    <template v-if="taskSet && taskSet.title">
+                      {{ taskSet.title }}
                     </template>
                     <template v-else> Task Name </template>
+                  </q-item-section>
+                  <q-item-section v-if="expanded" side>
+                    <q-popup-proxy
+                      ref="popupProxy"
+                      class="popup-menu onboarding-border-accent-0 onboarding-border-radius-8"
+                    >
+                      <q-list class="q-mt-sm q-mb-sm">
+                        <q-item
+                          clickable
+                          v-close-popup
+                          @click="$router.push({ name: 'edit-todo' })"
+                          class="onboarding-bg-hover-accent-0"
+                        >
+                          <q-item-section class="onboarding-text-hover-accent-3"
+                            >Edit</q-item-section
+                          >
+                        </q-item>
+                        <q-item
+                          clickable
+                          v-close-popup
+                          class="onboarding-bg-hover-accent-0"
+                          @click="deleteTask(taskSet)"
+                        >
+                          <q-item-section class="onboarding-text-hover-accent-3"
+                            >Delete</q-item-section
+                          >
+                        </q-item>
+                      </q-list>
+                    </q-popup-proxy>
+                    <q-icon
+                      name="more_horiz"
+                      @click.stop="$refs.popupProxy.show()"
+                    />
+                  </q-item-section>
+                </template>
+                <q-card>
+                  <q-card-section class="q-pa-none">
+                    <div
+                      class="col"
+                      v-for="(task, index) in taskSet.todos"
+                      :key="index"
+                    >
+                      <q-list v-if="!task.checked">
+                        <q-item class="q-py-none q-px-sm">
+                          <q-item-section>
+                            <!-- Initialize the checked property for each task -->
+                            <q-checkbox
+                              v-model="task.checked"
+                              v-on:click="handleCheckboxChange(task)"
+                              @click="inprogressNotify"
+                              :label="task.name"
+                              color="teal"
+                              class="task-checkbox"
+                            />
+                          </q-item-section>
+                          <q-item-section class="q-ml-xl">{{
+                            taskSet.selectedTimes[index]
+                          }}</q-item-section>
+                        </q-item>
+                      </q-list>
+                    </div>
+                    <div
+                      class="text-right onboarding-text-accent-0 text-semibold q-mr-md q-mt-md"
+                    >
+                      {{ todaysDate }}
+                    </div>
+                  </q-card-section>
+                </q-card>
+              </q-expansion-item>
+            </div>
+
+            <!-- April 14, 2024 -->
+            <div
+              class="col q-pa-md onboarding-border-accent-0 onboarding-border-radius-10 q-mr-md q-mt-sm"
+            >
+              <q-expansion-item
+                expand-separator
+                label="To-Do List"
+                default-opened
+              >
+                <template v-slot:header="{ expanded }">
+                  <q-item-section v-if="!expanded">
+                    <template v-if="sampleTasks && sampleTasks.length > 0">
+                      <div
+                        v-if="sampleTasks[0] && sampleTasks[0].title"
+                        :class="{
+                          'onboarding-text-accent-0': !expanded,
+                          'text-semibold': !expanded,
+                        }"
+                      >
+                        {{ sampleTasks[0].title }}
+                      </div>
+                      <div
+                        v-else
+                        class="onboarding-text-accent-0 text-semibold"
+                      >
+                        To-Do List
+                      </div>
+                    </template>
+                    <template v-else>
+                      <div class="onboarding-text-accent-0 text-semibold">
+                        To-Do List
+                      </div>
+                    </template>
+                  </q-item-section>
+                  <q-item-section
+                    v-if="!expanded"
+                    side
+                    class="onboarding-text-accent-0 text-semibold"
+                  >
+                    April 14, 2024
+                  </q-item-section>
+                  <q-item-section
+                    v-else
+                    class="onboarding-text-accent-0 text-semibold"
+                  >
+                    <template v-if="sampleTasks && sampleTasks.length > 0">
+                      <div v-if="sampleTasks[0] && sampleTasks[0].title">
+                        {{ sampleTasks[0].title }}
+                      </div>
+                      <div v-else>To-Do List</div>
+                    </template>
+                    <template v-else> To-Do List </template>
                   </q-item-section>
                   <q-item-section v-if="expanded" side>
                     <q-popup-proxy
@@ -131,22 +244,25 @@
                 </template>
                 <q-card>
                   <q-card-section class="q-pa-none">
-                    <div class="col" v-for="task in myTasks" :key="task.id">
-                      <q-list v-if="!task.checked">
+                    <div
+                      class="col"
+                      v-for="sampleTask in sampleMyTasks"
+                      :key="sampleTask.id"
+                    >
+                      <q-list v-if="!sampleTask.checked">
                         <q-item class="q-py-none q-px-sm">
-                          <q-item-section>
-                            <!-- Display the checkbox and task.todo -->
+                          <q-item-section class="q-mr-xl">
                             <q-checkbox
-                              v-model="task.checked"
-                              @input="handleCheckboxChange(task)"
+                              v-model="sampleTask.checked"
+                              @input="handleCheckboxChangeSample(sampleTask)"
                               @click="inprogressNotify"
-                              :label="task.todo"
+                              :label="sampleTask.todo"
                               color="teal"
                               class="task-checkbox"
                             />
                           </q-item-section>
                           <q-item-section class="q-ml-xl">{{
-                            task.selectedTime
+                            sampleTask.selectedTime
                           }}</q-item-section>
                         </q-item>
                       </q-list>
@@ -154,7 +270,7 @@
                     <div
                       class="text-right onboarding-text-accent-0 text-semibold q-mr-md q-mt-md"
                     >
-                      {{ todaysDate }}
+                      April 14, 2024
                     </div>
                   </q-card-section>
                 </q-card>
@@ -171,21 +287,25 @@
               Done
             </div>
             <div
-              class="col q-pa-md onboarding-border-accent-0 onboarding-border-radius-10"
+              v-for="(taskSet, index) in myTasks.slice().reverse()"
+              :key="`taskSet-${index}`"
+              class="col q-pa-md onboarding-border-accent-0 onboarding-border-radius-10 q-mt-sm"
             >
-              <q-expansion-item expand-separator label="To-Do List">
+              <q-expansion-item expand-separator :label="taskSet.title">
                 <template v-slot:header="{ expanded }">
-                  <q-item-section
-                    v-if="!expanded"
-                    class="onboarding-text-accent-0 text-semibold"
-                  >
-                    <template v-if="doneTasks && doneTasks.length > 0">
-                      <div v-if="doneTasks[0] && doneTasks[0].title">
-                        {{ doneTasks[0].title }}
-                      </div>
-                      <div v-else>Task Name</div>
-                    </template>
-                    <template v-else> Task Name </template>
+                  <q-item-section v-if="!expanded">
+                    <div
+                      v-if="taskSet.title"
+                      :class="{
+                        'onboarding-text-accent-0': !expanded,
+                        'text-semibold': !expanded,
+                      }"
+                    >
+                      {{ taskSet.title }}
+                    </div>
+                    <div v-else class="onboarding-text-accent-0 text-semibold">
+                      Task Name
+                    </div>
                   </q-item-section>
                   <q-item-section
                     v-if="!expanded"
@@ -198,11 +318,8 @@
                     v-else
                     class="onboarding-text-accent-0 text-semibold"
                   >
-                    <template v-if="doneTasks && doneTasks.length > 0">
-                      <div v-if="doneTasks[0] && doneTasks[0].title">
-                        {{ doneTasks[0].title }}
-                      </div>
-                      <div v-else>Task Name</div>
+                    <template v-if="taskSet && taskSet.title">
+                      {{ taskSet.title }}
                     </template>
                     <template v-else> Task Name </template>
                   </q-item-section>
@@ -211,17 +328,24 @@
 
                 <q-card>
                   <q-card-section class="q-pa-none">
-                    <div class="col" v-for="task in doneTasks" :key="task.id">
+                    <div
+                      class="col"
+                      v-for="(task, index) in taskSet.todos"
+                      :key="index"
+                    >
                       <q-list v-if="task.checked">
                         <q-item class="q-py-none q-px-sm">
-                          <!-- Checkbox for tasks in DoneTasks -->
-                          <q-checkbox
-                            v-model="task.checked"
-                            @input="handleCheckboxChange(task)"
-                            @click="doneNotify"
-                            :label="task.todo"
-                            color="teal"
-                          />
+                          <q-item-section>
+                            <!-- Initialize the checked property for each task -->
+                            <q-checkbox
+                              v-model="task.checked"
+                              v-on:click="handleCheckboxChange(task)"
+                              @click="doneNotify"
+                              :label="task.name"
+                              color="teal"
+                              class="task-checkbox"
+                            />
+                          </q-item-section>
                           <q-item-section class="q-ml-xl">{{
                             todaysTime
                           }}</q-item-section>
@@ -232,6 +356,95 @@
                       class="text-right onboarding-text-accent-0 text-semibold q-mr-md q-mt-md"
                     >
                       {{ todaysDate }}
+                    </div>
+                  </q-card-section>
+                </q-card>
+              </q-expansion-item>
+            </div>
+
+            <!-- April 14, 2024 -->
+            <div
+              class="col q-pa-md onboarding-border-accent-0 onboarding-border-radius-10 q-mt-sm"
+            >
+              <q-expansion-item
+                expand-separator
+                label="To-Do List"
+                default-opened
+              >
+                <template v-slot:header="{ expanded }">
+                  <q-item-section v-if="!expanded">
+                    <template v-if="sampleTasks && sampleTasks.length > 0">
+                      <div
+                        v-if="sampleTasks[0] && sampleTasks[0].title"
+                        :class="{
+                          'onboarding-text-accent-0': !expanded,
+                          'text-semibold': !expanded,
+                        }"
+                      >
+                        {{ sampleTasks[0].title }}
+                      </div>
+                      <div
+                        v-else
+                        class="onboarding-text-accent-0 text-semibold"
+                      >
+                        To-Do List
+                      </div>
+                    </template>
+                    <template v-else>
+                      <div class="onboarding-text-accent-0 text-semibold">
+                        To-Do List
+                      </div>
+                    </template>
+                  </q-item-section>
+                  <q-item-section
+                    v-if="!expanded"
+                    side
+                    class="onboarding-text-accent-0 text-semibold"
+                  >
+                    April 14, 2024
+                  </q-item-section>
+                  <q-item-section
+                    v-else
+                    class="onboarding-text-accent-0 text-semibold"
+                  >
+                    <template v-if="sampleTasks && sampleTasks.length > 0">
+                      <div v-if="sampleTasks[0] && sampleTasks[0].title">
+                        {{ sampleTasks[0].title }}
+                      </div>
+                      <div v-else>To-Do List</div>
+                    </template>
+                    <template v-else> To-Do List</template>
+                  </q-item-section>
+                </template>
+                <q-card>
+                  <q-card-section class="q-pa-none">
+                    <div
+                      class="col"
+                      v-for="sampleTask in sampleDoneTasks"
+                      :key="sampleTask.id"
+                    >
+                      <q-list v-if="sampleTask.checked">
+                        <q-item class="q-py-none q-px-sm">
+                          <q-item-section class="q-mr-xl">
+                            <q-checkbox
+                              v-model="sampleTask.checked"
+                              @input="handleCheckboxChange(sampleTask)"
+                              @click="doneNotify"
+                              :label="sampleTask.todo"
+                              color="teal"
+                              class="task-checkbox"
+                            />
+                          </q-item-section>
+                          <q-item-section class="q-ml-xl">{{
+                            todaysTime
+                          }}</q-item-section>
+                        </q-item>
+                      </q-list>
+                    </div>
+                    <div
+                      class="text-right onboarding-text-accent-0 text-semibold q-mr-md q-mt-md"
+                    >
+                      April 14, 2024
                     </div>
                   </q-card-section>
                 </q-card>

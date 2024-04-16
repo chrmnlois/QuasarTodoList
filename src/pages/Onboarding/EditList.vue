@@ -24,6 +24,7 @@
                 flat
                 icon="arrow_back"
               />
+
               <h5 class="text-26 text-bold q-my-none q-ml-md">
                 Create A New Task
               </h5>
@@ -44,7 +45,7 @@
                   dense
                   borderless
                   placeholder="Task Name"
-                  v-model="taskTitle"
+                  v-model="myTasks[0].title"
                   :rules="[(val) => (val !== null && val !== '') || '']"
                   hide-bottom-space
                   class="onboarding-input-field standard onboarding-border-accent-0 onboarding-border-radius-10"

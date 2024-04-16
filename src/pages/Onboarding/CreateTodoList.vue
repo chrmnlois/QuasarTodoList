@@ -128,9 +128,12 @@
                             color="black"
                           >
                             <q-popup-proxy
-                              cover
+                              :cover="false"
+                              :offset="[342, 40]"
+                              flat
                               transition-show="scale"
                               transition-hide="scale"
+                              class="time-pop onboarding-border-accent-0 onboarding-border-radius-10"
                             >
                               <q-time
                                 v-model="keyResult.selectedTime"
@@ -206,6 +209,7 @@
                   dense
                   class="save-btn onboarding-border-accent-0 onboarding-bg-accent-0 text-white q-ml-md"
                   type="submit"
+                  @click="$router.go(-1)"
                   label="Save"
                 />
               </div>

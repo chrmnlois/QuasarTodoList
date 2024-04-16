@@ -4,12 +4,19 @@ import CustomModal from "../components/CustomModal.vue";
 import Filters from "../../../components/Filters.vue";
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { MyTasks, DoneTasks } from "../composables/Tasks.js";
+import { MyTasks, DoneTasks, SampleTasks } from "../composables/Tasks.js";
 import { date } from "quasar";
 import { useQuasar } from "quasar";
 
 export default {
   components: { MainDialog, CustomModal, Filters },
+
+  computed: {
+    isMyTasksEmpty() {
+      return this.myTasks.length === 0;
+    },
+  },
+
   setup() {
     // ** WEBPAGE TITLE **
     document.title = "To-Do List";
@@ -36,6 +43,41 @@ export default {
       tasksState.value.filter((task) => task.checked)
     );
 
+    /** CHECKBOX CHANGE **/
+    const handleCheckboxChange = (clickedTask) => {
+      // Update the tasksState array
+      tasksState.value = tasksState.value.map((task) => {
+        if (task === clickedTask) {
+          // Toggle the checked status of the clicked task
+          task.checked = !task.checked;
+        }
+        return task;
+      });
+    };
+
+    // ** REACTIVE STATE FOR SAMPLE TASKS **
+    const tasksStateSample = ref(SampleTasks.value);
+
+    // ** COMPUTED PROPERTY FOR SAMPLE MyTasks **
+    const sampleMyTasks = computed(() =>
+      tasksStateSample.value.filter((sampleTask) => !sampleTask.checked)
+    );
+
+    // ** COMPUTED PROPERTY FOR SAMPLE DoneTasks **
+    const sampleDoneTasks = computed(() =>
+      tasksStateSample.value.filter((sampleTask) => sampleTask.checked)
+    );
+
+    /** CHECKBOX CHANGE FOR SAMPLE **/
+    const handleCheckboxChangeSample = (sampleTask) => {
+      sampleTask.checked = !sampleTask.checked; // Toggle the checked status
+
+      // Update the tasksState array
+      tasksStateSample.value = tasksStateSample.value.map((t) =>
+        t.id === sampleTask.id ? task : t
+      );
+    };
+
     // ** COMPUTED PROPERTY FOR TODAY'S DATE **
     const todaysDate = computed(() => {
       const timeStamp = Date.now();
@@ -47,16 +89,6 @@ export default {
       const timeStamp = Date.now();
       return date.formatDate(timeStamp, "hh:mm A");
     });
-
-    /** CHECKBOX CHANGE **/
-    const handleCheckboxChange = (task) => {
-      task.checked = !task.checked; // Toggle the checked status
-
-      // Update the tasksState array
-      tasksState.value = tasksState.value.map((t) =>
-        t.id === task.id ? task : t
-      );
-    };
 
     /** EDIT AND DELETE TASKS **/
     const deleteTask = () => {
@@ -75,8 +107,11 @@ export default {
       doneTasks,
       todaysDate,
       handleCheckboxChange,
+      handleCheckboxChangeSample,
       deleteTask,
       todaysTime,
+      sampleMyTasks,
+      sampleDoneTasks,
 
       // Uncheck Notification
       inprogressNotify() {
