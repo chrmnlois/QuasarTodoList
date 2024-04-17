@@ -4,7 +4,13 @@ import CustomModal from "../components/CustomModal.vue";
 import Filters from "../../../components/Filters.vue";
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { MyTasks, DoneTasks, inProgress } from "../composables/Tasks.js";
+import {
+  MyTasks,
+  DoneTasks,
+  inProgress,
+  tempArray,
+  updateArray,
+} from "../composables/Tasks.js";
 import { useQuasar } from "quasar";
 
 export default {
@@ -30,28 +36,19 @@ export default {
     ]);
     const addKeyResult = () => {
       // Add form
-      keyResults.value.push({
-        result_name: "",
+      taskSet.keyResults.push({
+        todo: {
+          name: "",
+        },
         selectedTime: null,
-        checked: false,
       });
     };
+
     const removeKeyResult = (index) => {
       // Remove form
       if (index > -1) {
         keyResults.value.splice(index, 1);
       }
-    };
-
-    // ** FORMAT TIME (12-Hour Format) **
-    const formatTime = (time) => {
-      if (!time) return ""; // return empty string if time is not provided
-      const [hours, minutes] = time.split(":").map(Number);
-      const period = hours >= 12 ? "PM" : "AM";
-      const formattedHours = hours % 12 || 12; // Convert to 12-hour format
-      return `${formattedHours}:${minutes
-        .toString()
-        .padStart(2, "0")} ${period}`;
     };
 
     // ** SUBMIT FORM **
@@ -101,8 +98,63 @@ export default {
       taskTitle.value = "";
       keyResults.value = [{ result_name: "", selectedTime: null }];
       form.value.reset();
+
+      // Push the edited taskSet back to MyTasks array
+      if (tempArray.value.length > 0) {
+        const editedTaskSet = tempArray.value[0];
+        MyTasks.value.push(editedTaskSet);
+        tempArray.value = [];
+      }
     };
 
+    const updateTask = () => {
+      // Find the index of the taskSet in tempArray
+      const taskSetIndex = tempArray.value.findIndex(
+        (task) => task.title === tempArray.value[0].title
+      );
+
+      // If the taskSet exists in tempArray, update it
+      if (taskSetIndex !== -1) {
+        // Update the title, keyResults, and selectedTime of the taskSet
+        tempArray.value[taskSetIndex].title = tempArray.value[0].title;
+        tempArray.value[taskSetIndex].keyResults =
+          tempArray.value[0].keyResults.map((result) => ({
+            todo: { name: result.todo.name },
+            selectedTime: result.selectedTime,
+          }));
+
+        // Push the updated taskSet to updateArray
+        const restructuredTaskSet = restructureTaskSet(tempArray.value[0]);
+        updateArray.value.push(restructuredTaskSet);
+
+        // Update the first element of myTasks with the restructured taskSet
+        MyTasks.value.splice(0, 1, restructuredTaskSet);
+
+        // Clear the tempArray
+        tempArray.value = [];
+
+        // Clear the updateArray
+        updateArray.value = [];
+        showNotify(true);
+      }
+
+      // Navigate back to the todo-list route
+      router.push({ name: "todo-list" });
+    };
+
+    const restructureTaskSet = (taskSet) => {
+      const restructuredTaskSet = {
+        checked: false,
+        title: taskSet.title,
+        todos: taskSet.keyResults.map((result) => ({
+          name: result.todo.name,
+          checked: false,
+        })),
+        selectedTimes: taskSet.keyResults.map((result) => result.selectedTime),
+      };
+
+      return restructuredTaskSet;
+    };
     // ** NOTIFICATION ADDING TASK **
     const $q = useQuasar();
     const showNotify = (status) => {
@@ -113,7 +165,7 @@ export default {
         } q-px-lg q-pt-none q-pb-none`,
         html: true,
         message: status
-          ? `<div class="text-bold">Successfully Added!</div> New To-Do List has been added successfully`
+          ? `<div class="text-bold">Successfully Updated!</div> New To-Do List has been updated successfully`
           : `<div class="text-bold">Failed!</div> Something Went Wrong`,
       });
     };
@@ -129,6 +181,9 @@ export default {
       addTodo,
       form,
       showNotify,
+      tempArray,
+      updateTask,
+      updateArray,
     };
   },
 

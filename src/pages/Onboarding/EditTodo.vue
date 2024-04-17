@@ -24,15 +24,18 @@
                 flat
                 icon="arrow_back"
               />
-
               <h5 class="text-26 text-bold q-my-none q-ml-md">
                 Create A New Task
               </h5>
             </div>
           </div>
 
-          <div class="justify-between q-mt-none q-mb-lg">
-            <q-form ref="form" @submit.prevent="addTodo()">
+          <div
+            v-for="(taskSet, index) in tempArray"
+            :key="`taskSet-${index}`"
+            class="justify-between q-mt-none q-mb-lg"
+          >
+            <q-form ref="form" @submit="updateTask()">
               <div class="justify-start q-mt-none q-mb-none q-ml-sm gt-xs">
                 <!-- Task Title -->
                 <h5 class="text-14 text-weight-semibold q-mb-none">
@@ -45,7 +48,7 @@
                   dense
                   borderless
                   placeholder="Task Name"
-                  v-model="myTasks[0].title"
+                  v-model="taskSet.title"
                   :rules="[(val) => (val !== null && val !== '') || '']"
                   hide-bottom-space
                   class="onboarding-input-field standard onboarding-border-accent-0 onboarding-border-radius-10"
@@ -54,14 +57,16 @@
 
               <div class="justify-start q-mt-md q-mb-sm q-ml-sm gt-xs">
                 <!-- START - Standard infinite form -->
-                <div v-for="(keyResult, index) in keyResults" :key="index">
+                <div v-for="(intask, index) in taskSet.keyResults" :key="index">
                   <div
                     class="onboarding-border-accent-0 onboarding-border-radius-15 q-px-md q-py-lg q-mt-md standard-form-width"
                   >
                     <!-- Task Name -->
                     <div class="field">
                       <div class="flex justify-end">
-                        <div v-if="keyResults.length > 1 && index !== 0">
+                        <div
+                          v-if="taskSet.keyResults.length > 0 && index !== -1"
+                        >
                           <q-btn
                             flat
                             class="delete_button onboarding-buttontext-grey q-pa-none"
@@ -97,7 +102,7 @@
                       </div>
 
                       <q-input
-                        v-model="keyResult.result_name"
+                        v-model="intask.todo.name"
                         dense
                         borderless
                         placeholder="Account Name"
@@ -116,7 +121,7 @@
                         >
                       </div>
                       <q-input
-                        v-model="keyResult.selectedTime"
+                        v-model="intask.selectedTime"
                         dense
                         borderless
                         placeholder="0:00"
@@ -129,12 +134,15 @@
                             color="black"
                           >
                             <q-popup-proxy
-                              cover
+                              :cover="false"
+                              :offset="[342, 40]"
+                              flat
                               transition-show="scale"
                               transition-hide="scale"
+                              class="time-pop onboarding-border-accent-0 onboarding-border-radius-10"
                             >
                               <q-time
-                                v-model="keyResult.selectedTime"
+                                v-model="intask.selectedTime"
                                 display-format="h:mm A"
                                 color="white"
                                 text-color="blue"
@@ -208,6 +216,7 @@
                   class="save-btn onboarding-border-accent-0 onboarding-bg-accent-0 text-white q-ml-md"
                   type="submit"
                   label="Save"
+                  @click="$router.go(-1)"
                 />
               </div>
             </q-form>
@@ -219,7 +228,7 @@
 </template>
 
 <!-- Script -->
-<script src="./scripts/CreateTodoList.js"></script>
+<script src="./scripts/EditTodo.js"></script>
 
 <!-- Style -->
 <style lang="scss" scope>

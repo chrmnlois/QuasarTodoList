@@ -4,7 +4,13 @@ import CustomModal from "../components/CustomModal.vue";
 import Filters from "../../../components/Filters.vue";
 import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { MyTasks, DoneTasks, SampleTasks } from "../composables/Tasks.js";
+import {
+  MyTasks,
+  DoneTasks,
+  SampleTasks,
+  tempArray,
+  updateArray,
+} from "../composables/Tasks.js";
 import { date } from "quasar";
 import { useQuasar } from "quasar";
 
@@ -91,13 +97,43 @@ export default {
     });
 
     /** EDIT AND DELETE TASKS **/
-    const deleteTask = () => {
-      tasksState.value = [];
-      ToggleMainDialogState();
+    const editTask = (taskSet) => {
+      // Create a new object to hold the taskSet and its associated todos and selectedTimes
+      const editedTaskSet = {
+        title: taskSet.title,
+        keyResults: [],
+      };
+
+      // Combine todos and selectedTimes into the keyResults array
+      for (let i = 0; i < taskSet.todos.length; i++) {
+        editedTaskSet.keyResults.push({
+          todo: taskSet.todos[i],
+          selectedTime: taskSet.selectedTimes[i],
+        });
+      }
+
+      // Push the edited taskSet to tempArray
+      tempArray.value.push(editedTaskSet);
+
+      // Navigate to the edit-todo route
+      router.push({ name: "edit-todo" });
     };
 
+    const deleteTask = (taskSet) => {
+      const index = tasksState.value.findIndex(
+        (item) => item.id === taskSet.id
+      );
+      if (index !== -1) {
+        tasksState.value.splice(index, 1);
+      }
+      ToggleMainDialogState();
+    };
     // ** NOTIFICATION FOR IN PROGRESS / DONE **
     const $q = useQuasar();
+
+    console.log("updateArray: ", updateArray.value);
+    console.log("myTasks: ", myTasks.value);
+    console.log("tempArray: ", tempArray.value);
 
     return {
       showDialog,
@@ -108,10 +144,13 @@ export default {
       todaysDate,
       handleCheckboxChange,
       handleCheckboxChangeSample,
+      editTask,
       deleteTask,
       todaysTime,
       sampleMyTasks,
       sampleDoneTasks,
+      tempArray,
+      showPopup: false,
 
       // Uncheck Notification
       inprogressNotify() {

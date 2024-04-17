@@ -70,7 +70,7 @@ const routes = [
           {
             path: "edit-todo",
             name: "edit-todo",
-            component: () => import("../pages/Onboarding/EditList.vue"),
+            component: () => import("../pages/Onboarding/EditTodo.vue"),
           },
         ],
       },

@@ -86,37 +86,47 @@
                     <template v-else> Task Name </template>
                   </q-item-section>
                   <q-item-section v-if="expanded" side>
-                    <q-popup-proxy
-                      ref="popupProxy"
-                      class="popup-menu onboarding-border-accent-0 onboarding-border-radius-8"
+                    <q-btn
+                      flat
+                      dense
+                      round
+                      icon="more_horiz"
+                      @click.stop="showMenu = true"
                     >
-                      <q-list class="q-mt-sm q-mb-sm">
-                        <q-item
-                          clickable
-                          v-close-popup
-                          @click="$router.push({ name: 'edit-todo' })"
-                          class="onboarding-bg-hover-accent-0"
-                        >
-                          <q-item-section class="onboarding-text-hover-accent-3"
-                            >Edit</q-item-section
+                      <q-menu
+                        v-model="showMenu"
+                        transition-show="jump-up"
+                        transition-hide="jump-down"
+                        class="popup-menu onboarding-border-accent-0 onboarding-border-radius-8"
+                        anchor="bottom right"
+                        self="top end"
+                      >
+                        <q-list class="q-mt-sm q-mb-sm">
+                          <q-item
+                            clickable
+                            v-close-popup
+                            @click="editTask(taskSet)"
+                            class="onboarding-bg-hover-accent-0"
                           >
-                        </q-item>
-                        <q-item
-                          clickable
-                          v-close-popup
-                          class="onboarding-bg-hover-accent-0"
-                          @click="deleteTask(taskSet)"
-                        >
-                          <q-item-section class="onboarding-text-hover-accent-3"
-                            >Delete</q-item-section
+                            <q-item-section
+                              class="onboarding-text-hover-accent-3"
+                              >Edit</q-item-section
+                            >
+                          </q-item>
+                          <q-item
+                            clickable
+                            v-close-popup
+                            class="onboarding-bg-hover-accent-0"
+                            @click="deleteTask(taskSet)"
                           >
-                        </q-item>
-                      </q-list>
-                    </q-popup-proxy>
-                    <q-icon
-                      name="more_horiz"
-                      @click.stop="$refs.popupProxy.show()"
-                    />
+                            <q-item-section
+                              class="onboarding-text-hover-accent-3"
+                              >Delete</q-item-section
+                            >
+                          </q-item>
+                        </q-list>
+                      </q-menu>
+                    </q-btn>
                   </q-item-section>
                 </template>
                 <q-card>

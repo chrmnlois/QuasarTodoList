@@ -4,6 +4,8 @@ let inProgress = ref([]);
 let MyTasks = ref([]);
 let DoneTasks = ref([]);
 let SampleTasks = ref([]);
+let tempArray = ref([]);
+let updateArray = ref([]);
 
 SampleTasks.value = [
   {
@@ -38,4 +40,4 @@ SampleTasks.value = [
   },
 ];
 
-export { MyTasks, DoneTasks, SampleTasks, inProgress };
+export { MyTasks, DoneTasks, SampleTasks, inProgress, tempArray, updateArray };
